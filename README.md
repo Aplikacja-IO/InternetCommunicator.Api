@@ -1,2 +1,0 @@
-# InternetCommunicator.Api
-
