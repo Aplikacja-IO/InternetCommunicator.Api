@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using InternetCommunicator.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternetCommunicator.Infrastructure.Repository.Base
 {
@@ -33,24 +34,46 @@ namespace InternetCommunicator.Infrastructure.Repository.Base
             return createdUser.Entity;
         }
 
-        public async Task UpdateAsync(int id, TEntity entity)
+        public virtual async Task UpdateAsync(int id, TEntity entity)
+        {
+            var entityToUpdate = await GetByIdAsync(id);
+            UpdateEntity(entityToUpdate, entity);
+            DbContext.Set<TEntity>().Update(entityToUpdate);
+            await DbContext.SaveChangesAsync();
+        }
+
+        protected virtual TEntity UpdateEntity(TEntity dbEntity, TEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var entityToDelete = await GetByIdAsync(id);
+            DbContext.Set<TEntity>().Remove(entityToDelete);
+            await DbContext.SaveChangesAsync()
+                .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>> orderBy = null)
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
-            throw new NotImplementedException();
+            IQueryable<TEntity> query = DbContext.Set<TEntity>();
+
+            if (filter is not null)
+                query = query.Where(filter);
+
+            return await (orderBy != null ? orderBy(query) : query)
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await DbContext.Set<TEntity>()
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }
