@@ -14,11 +14,11 @@ namespace InternetCommunicator.Api.Controllers
     {
         public RegisterUser GetUserById(int id)
         {
-
+            return null;
         }
         public IEnumerable<RegisterUser> GetAllUsers()
         {
-
+            return null;
         }
     }
 }
