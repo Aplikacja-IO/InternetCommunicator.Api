@@ -17,7 +17,9 @@ namespace InternetCommunicator.Api.Controllers
         public UserController()
         {
             database = tmpDb.GetInstance();
-            tmpDb.SetNumerOfUsersTo(20);
+
+            tmpDb.SetNumerOfUsersTo(10);
+            tmpDb.SetPercenOfCompanyUsersTo(50);
         }
 
         [HttpGet("{id}")]
@@ -33,6 +35,12 @@ namespace InternetCommunicator.Api.Controllers
         public IEnumerable<RegisterUser> GetAllUsers()
         {
             return database.GetAllUsers();
+        }
+
+        [HttpDelete] 
+        public void DeleteRegisterUser(int id)
+        {
+            database.RemoveUserById(id);
         }
     }
 }
