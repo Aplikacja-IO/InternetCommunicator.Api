@@ -7,18 +7,32 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace InternetCommunicator.Api.Controllers
-{
-    [Route("api/[controller]")]
+{    
     [ApiController]
+    [Route("api/[controller]")]
+
     public class UserController : ControllerBase
     {
+        public tmpDb database { get; set; }
+        public UserController()
+        {
+            database = tmpDb.GetInstance();
+            tmpDb.SetNumerOfUsersTo(20);
+        }
+
+        [HttpGet("{id}")]
         public RegisterUser GetUserById(int id)
         {
-            return null;
+            var allUsers = database.GetAllUsers();
+            var user = allUsers.Where(user => user.UserId == id);
+
+            return user.FirstOrDefault();
         }
+
+        [HttpGet]
         public IEnumerable<RegisterUser> GetAllUsers()
         {
-            return null;
+            return database.GetAllUsers();
         }
     }
 }
