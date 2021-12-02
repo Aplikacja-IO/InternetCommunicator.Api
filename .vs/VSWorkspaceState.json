@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\InternetCommunicator.Api",
+    "\\InternetCommunicator.Application",
+    "\\InternetCommunicator.Domain",
+    "\\InternetCommunicator.Domain\\Models",
+    "\\InternetCommunicator.Infrastructure"
+  ],
+  "SelectedNode": "\\InternetCommunicator.Api.sln",
+  "PreviewInSolutionExplorer": false
+}
