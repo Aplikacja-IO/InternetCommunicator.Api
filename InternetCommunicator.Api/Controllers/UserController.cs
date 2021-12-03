@@ -38,9 +38,16 @@ namespace InternetCommunicator.Api.Controllers
         }
 
         [HttpDelete] 
-        public void DeleteRegisterUser(int id)
+        public bool DeleteRegisterUser(int id)
         {
-            database.RemoveUserById(id);
+            return database.RemoveUserById(id);
+        }
+
+        [HttpPost]
+        public bool PostRegisterUser(string login, string password)
+        {
+            var bytePassword = Convert.FromBase64String(password);
+            return database.CreateNewUser(login, bytePassword);
         }
     }
 }
