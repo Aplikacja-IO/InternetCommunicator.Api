@@ -18,6 +18,7 @@ namespace InternetCommunicator.Domain.Models
 
         public int UserId { get; set; }
         public string UserName { get; set; }
+        [JsonIgnore]
         public byte[] UserPassword { get; set; }
         public DateTime RegisterDate { get; set; }
 
