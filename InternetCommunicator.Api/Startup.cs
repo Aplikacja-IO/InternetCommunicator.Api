@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InternetCommunicator.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternetCommunicator.Api
 {
@@ -26,7 +28,8 @@ namespace InternetCommunicator.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            var connection = Configuration.GetConnectionString("CommunicatorDatabase");
+            services.AddDbContextPool<CommunicatorDBContext>(options => options.UseSqlServer(connection));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -48,8 +51,13 @@ namespace InternetCommunicator.Api
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
