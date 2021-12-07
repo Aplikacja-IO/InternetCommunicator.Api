@@ -1,6 +1,7 @@
 ﻿using InternetCommunicator.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,47 +9,50 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InternetCommunicator.Api.Controllers
-{    
+{
     [ApiController]
     [Route("api/[controller]")]
 
     public class RegisterUserController : ControllerBase
     {
-        public tmpDb database { get; set; }
-        public RegisterUserController()
+        private readonly CommunicatorDBContext _context;
+
+        public RegisterUserController(CommunicatorDBContext context)
         {
-            database = tmpDb.GetInstance();
-
-            tmpDb.SetNumerOfUsersTo(10);
-            tmpDb.SetPercenOfCompanyUsersTo(50);
-        }
-
-        [HttpGet("{id}")]
-        public RegisterUser GetUserById(int id)
-        {
-            var allUsers = database.GetAllUsers();
-            var user = allUsers.Where(user => user.UserId == id);
-
-            return user.FirstOrDefault();
+            _context = context;
         }
 
         [HttpGet]
-        public IEnumerable<RegisterUser> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<RegisterUser>>> GetAllUsers()
         {
-            return database.GetAllUsers();
+            return await _context.RegisterUsers.ToListAsync();
         }
-
-        [HttpDelete] 
-        public bool DeleteRegisterUser(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RegisterUser>> GetUserById(int id)
         {
-            return database.RemoveUserById(id);
-        }
+            var users = await _context.RegisterUsers.FindAsync(id);
 
+            if (users == null) return NotFound();
+            return users;
+        }
         [HttpPost]
-        public bool PostRegisterUser(string login, string password)
+        public async Task<ActionResult<RegisterUser>> PostRegisterUser(string login, string password)
         {
+            var highestId = _context.RegisterUsers.AsQueryable().OrderByDescending(u => u.UserId).FirstOrDefault().UserId;
+            highestId++;
+
             var bytePassword = Encoding.ASCII.GetBytes(password);
-            return database.CreateNewUser(login, bytePassword);
+            var user = new RegisterUser
+            {
+                UserId = highestId,
+                UserName = login,
+                UserPassword = bytePassword,
+                RegisterDate = DateTime.Now
+            };
+            _context.RegisterUsers.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetAllUsers", new { id = user.UserId }, user);
         }
     }
 }
