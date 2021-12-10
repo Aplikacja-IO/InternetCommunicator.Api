@@ -1,19 +1,17 @@
-﻿using System;
-using InternetCommunicator.Domain.Models;
+﻿using InternetCommunicator.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace InternetCommunicator.Infrastructure.Repository.Base
+namespace InternetCommunicator.Infrastructure.Context
 {
-    public partial class CommunicatorDBContext : DbContext
+    public partial class CommunicatorDbContext : DbContext
     {
-        public CommunicatorDBContext()
+        public CommunicatorDbContext()
         {
         }
 
-        public CommunicatorDBContext(DbContextOptions<CommunicatorDBContext> options)
+        public CommunicatorDbContext(DbContextOptions<CommunicatorDbContext> options)
             : base(options)
         {
         }

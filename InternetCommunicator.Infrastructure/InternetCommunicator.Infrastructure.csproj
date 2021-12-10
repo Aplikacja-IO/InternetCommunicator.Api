@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\Comment\" />
     <Folder Include="Repository\CompanyUser\" />
     <Folder Include="Repository\Component\" />
     <Folder Include="Repository\ComponentSubscriber\" />

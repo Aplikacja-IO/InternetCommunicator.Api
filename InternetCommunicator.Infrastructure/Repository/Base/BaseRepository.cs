@@ -5,16 +5,17 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace InternetCommunicator.Infrastructure.Repository.Base
+namespace InternetCommunicator.Infrastructure.Repository
 {
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
     where TEntity : class, new()
     {
-        protected readonly CommunicatorDBContext DbContext;
+        protected readonly CommunicatorDbContext DbContext;
 
-        protected BaseRepository(CommunicatorDBContext dbContext)
+        protected BaseRepository(CommunicatorDbContext dbContext)
         {
             DbContext = dbContext;
         }
