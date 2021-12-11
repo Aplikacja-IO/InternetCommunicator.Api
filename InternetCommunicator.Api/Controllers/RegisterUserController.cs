@@ -38,21 +38,10 @@ namespace InternetCommunicator.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<RegisterUser>> PostRegisterUser(string login, string password)
         {
-            var highestId = _context.RegisterUsers.AsQueryable().OrderByDescending(u => u.UserId).FirstOrDefault().UserId;
-            highestId++;
+            var userService = new UserServices(_context);
+            var newUser = await userService.CreateNewUser(login, password);
 
-            var bytePassword = Encoding.ASCII.GetBytes(password);
-            var user = new RegisterUser
-            {
-                UserId = highestId,
-                UserName = login,
-                UserPassword = bytePassword,
-                RegisterDate = DateTime.Now
-            };
-            _context.RegisterUsers.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAllUsers", new { id = user.UserId }, user);
+            return CreatedAtAction("GetAllUsers", new { id = newUser.UserId }, newUser);
         }
     }
 }

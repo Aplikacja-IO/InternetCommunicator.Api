@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -34,7 +35,7 @@ namespace InternetCommunicator.Api.Controllers
                 u => u.UserId == id && u.UserName == username && u.UserPassword == bytePassword);
         }
         [HttpPost]
-        public async Task<IActionResult> Post(UserInfo userData)
+        public async Task<IActionResult> PostUser(UserInfo userData)
         {
             if (userData != null && userData.Username != null && userData.Password != null)
             {
@@ -50,7 +51,7 @@ namespace InternetCommunicator.Api.Controllers
                     new Claim("Username", user.UserName)
                     };
 
-                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:key"]));
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                     var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                     var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
 
