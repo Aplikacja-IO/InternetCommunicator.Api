@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InternetCommunicator.Domain\InternetCommunicator.Domain.csproj" />
+    <ProjectReference Include="..\InternetCommunicator.Infrastructure\InternetCommunicator.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
