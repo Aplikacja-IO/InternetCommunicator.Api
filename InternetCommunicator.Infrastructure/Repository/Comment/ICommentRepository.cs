@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using InternetCommunicator.Domain.Models;
 using System.Threading.Tasks;
-using InternetCommunicator.Domain.Models;
 
 namespace InternetCommunicator.Infrastructure.Repository
 {
-    interface ICommentRepository 
+    public interface ICommentRepository : IBaseRepository<Comment>
     {
         public Task<Comment> GetByIdAsync(int id);
     }

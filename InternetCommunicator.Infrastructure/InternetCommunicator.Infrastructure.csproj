@@ -19,14 +19,4 @@
     <ProjectReference Include="..\InternetCommunicator.Application\InternetCommunicator.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\CompanyUser\" />
-    <Folder Include="Repository\Component\" />
-    <Folder Include="Repository\ComponentSubscriber\" />
-    <Folder Include="Repository\Group\" />
-    <Folder Include="Repository\GroupMembership\" />
-    <Folder Include="Repository\RegisterUser\" />
-    <Folder Include="Repository\Post\" />
-  </ItemGroup>
-
 </Project>
