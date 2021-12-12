@@ -1,4 +1,5 @@
 ﻿using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,9 @@ namespace InternetCommunicator.Api.Controllers
     [Route("api/[controller]")]
     public class GroupController : ControllerBase
     {
-        private readonly CommunicatorDBContext _context;
+        private readonly CommunicatorDbContext _context;
 
-        public GroupController(CommunicatorDBContext context)
+        public GroupController(CommunicatorDbContext context)
         {
             _context = context;
         }

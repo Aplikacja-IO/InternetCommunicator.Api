@@ -1,15 +1,22 @@
-﻿using System;
+﻿using InternetCommunicator.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace InternetCommunicator.Domain.Models
+namespace InternetCommunicator.Infrastructure.Context
 {
-    public partial class CommunicatorDBContext : DbContext
+    public partial class CommunicatorDbContext : DbContext
     {
+<<<<<<< HEAD:InternetCommunicator.Domain/Models/CommunicatorDBContext.cs
         
         public CommunicatorDBContext(DbContextOptions<CommunicatorDBContext> options)
+=======
+        public CommunicatorDbContext()
+        {
+        }
+
+        public CommunicatorDbContext(DbContextOptions<CommunicatorDbContext> options)
+>>>>>>> origin/dev:InternetCommunicator.Infrastructure/Context/CommunicatorDBContext.cs
             : base(options)
         {
         }
@@ -24,7 +31,17 @@ namespace InternetCommunicator.Domain.Models
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<RegisterUser> RegisterUsers { get; set; }
 
+<<<<<<< HEAD:InternetCommunicator.Domain/Models/CommunicatorDBContext.cs
        
+=======
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("ConnectionStrings:PC-DOM");
+            }
+        }
+>>>>>>> origin/dev:InternetCommunicator.Infrastructure/Context/CommunicatorDBContext.cs
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

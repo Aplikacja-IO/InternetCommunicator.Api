@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using InternetCommunicator.Api.Helpers.Swagger;
+using InternetCommunicator.Infrastructure.Context;
 
 namespace InternetCommunicator.Api
 {
@@ -33,7 +33,7 @@ namespace InternetCommunicator.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration.GetConnectionString("CommunicatorDatabase");
-            services.AddDbContextPool<CommunicatorDBContext>(options => options.UseSqlServer(connection));
+            services.AddDbContextPool<CommunicatorDbContext>(options => options.UseSqlServer(connection));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

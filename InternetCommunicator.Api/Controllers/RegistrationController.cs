@@ -1,4 +1,5 @@
 ﻿using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace InternetCommunicator.Api.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-        private readonly CommunicatorDBContext _context;
+        private readonly CommunicatorDbContext _context;
 
-        public RegistrationController(CommunicatorDBContext context)
+        public RegistrationController(CommunicatorDbContext context)
         {
             _context = context;
         }

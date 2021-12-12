@@ -1,5 +1,6 @@
 ﻿using InternetCommunicator.Api.Helpers;
 using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,10 +21,10 @@ namespace InternetCommunicator.Api.Controllers
 
     public class TokenController : Controller
     {
-        private readonly CommunicatorDBContext _context;
+        private readonly CommunicatorDbContext _context;
         public IConfiguration _configuration;
 
-        public TokenController(CommunicatorDBContext context, IConfiguration config)
+        public TokenController(CommunicatorDbContext context, IConfiguration config)
         {
             _context = context;
             _configuration = config;

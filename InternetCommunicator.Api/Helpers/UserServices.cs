@@ -1,4 +1,5 @@
 ﻿using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace InternetCommunicator.Api.Controllers
 {
     public class UserServices
     {
-        private CommunicatorDBContext _context;
-        public UserServices(CommunicatorDBContext context)
+        private CommunicatorDbContext _context;
+
+        public UserServices(CommunicatorDbContext context)
         {
             _context = context;
         }
@@ -29,6 +31,14 @@ namespace InternetCommunicator.Api.Controllers
             };
             _context.RegisterUsers.Add(user);
             await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<RegisterUser> GetUserById(int id)
+        {
+            var user = await _context.RegisterUsers.FindAsync(id);
+
+            if (user == null) return null;
             return user;
         }
     }

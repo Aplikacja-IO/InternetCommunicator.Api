@@ -1,4 +1,5 @@
 ﻿using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,40 +14,11 @@ namespace InternetCommunicator.Api.Controllers
     [ApiController]
     public class CompanyUserController : ControllerBase
     {
-        public tmpDb database { get; set; }
-        public CompanyUserController()
+        private readonly CommunicatorDbContext _context;
+        public CompanyUserController(CommunicatorDbContext context)
         {
-            database = tmpDb.GetInstance();
-
-            tmpDb.SetNumerOfUsersTo(10);
-            tmpDb.SetPercenOfCompanyUsersTo(50);
+            _context = context;
         }
 
-        [HttpGet("{id}")]
-        public CompanyUser GetUserById(int id)
-        {
-            var allUsers = database.GetAllCompanyUsers();
-            var user = allUsers.Where(user => user.UserId == id);
-
-            return user.FirstOrDefault();
-        }
-        [HttpGet]
-        public IEnumerable<CompanyUser> GetAllCompanyUsers()
-        {
-            return database.GetAllCompanyUsers();
-        }
-        [HttpDelete]
-        public bool DeleteCompanyUserById(int id)
-        {
-            return database.RemoveUserById(id);
-        }
-        [HttpPost]
-        public bool PostCompanyUser(string firstName, string lastName, string login, string password, int ownerId)
-        {
-            var allUsers = database.GetAllUsers();
-            var owner = allUsers.Where(user => user.UserId == ownerId).FirstOrDefault();
-            var bytePassword = Encoding.ASCII.GetBytes(password);
-            return database.CreateNewUser(firstName, lastName, login, bytePassword, owner);
-        }
     }
 }

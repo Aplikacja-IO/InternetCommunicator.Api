@@ -1,4 +1,6 @@
 ﻿using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,14 +12,15 @@ using System.Threading.Tasks;
 
 namespace InternetCommunicator.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
 
     public class RegisterUserController : ControllerBase
     {
-        private readonly CommunicatorDBContext _context;
+        private readonly CommunicatorDbContext _context;
 
-        public RegisterUserController(CommunicatorDBContext context)
+        public RegisterUserController(CommunicatorDbContext context)
         {
             _context = context;
         }
@@ -30,10 +33,10 @@ namespace InternetCommunicator.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RegisterUser>> GetUserById(int id)
         {
-            var users = await _context.RegisterUsers.FindAsync(id);
-
-            if (users == null) return NotFound();
-            return users;
+            var userService = new UserServices(_context);
+            var user = await userService.GetUserById(id);
+            if (user == null) return NotFound();
+            return user;
         }
         [HttpPost]
         public async Task<ActionResult<RegisterUser>> PostRegisterUser(string login, string password)
