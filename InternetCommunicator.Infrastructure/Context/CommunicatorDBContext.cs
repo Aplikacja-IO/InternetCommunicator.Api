@@ -7,11 +7,16 @@ namespace InternetCommunicator.Infrastructure.Context
 {
     public partial class CommunicatorDbContext : DbContext
     {
+<<<<<<< HEAD:InternetCommunicator.Domain/Models/CommunicatorDBContext.cs
+        
+        public CommunicatorDBContext(DbContextOptions<CommunicatorDBContext> options)
+=======
         public CommunicatorDbContext()
         {
         }
 
         public CommunicatorDbContext(DbContextOptions<CommunicatorDbContext> options)
+>>>>>>> origin/dev:InternetCommunicator.Infrastructure/Context/CommunicatorDBContext.cs
             : base(options)
         {
         }
@@ -26,6 +31,9 @@ namespace InternetCommunicator.Infrastructure.Context
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<RegisterUser> RegisterUsers { get; set; }
 
+<<<<<<< HEAD:InternetCommunicator.Domain/Models/CommunicatorDBContext.cs
+       
+=======
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -33,6 +41,7 @@ namespace InternetCommunicator.Infrastructure.Context
                 optionsBuilder.UseSqlServer("ConnectionStrings:PC-DOM");
             }
         }
+>>>>>>> origin/dev:InternetCommunicator.Infrastructure/Context/CommunicatorDBContext.cs
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
