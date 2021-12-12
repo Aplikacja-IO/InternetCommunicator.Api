@@ -1,17 +1,18 @@
-﻿using InternetCommunicator.Domain.Models;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace InternetCommunicator.Infrastructure.Context
+namespace InternetCommunicator.Domain.Models
 {
-    public partial class CommunicatorDbContext : DbContext
+    public partial class CommunicatorDBContext : DbContext
     {
-        public CommunicatorDbContext()
+        public CommunicatorDBContext()
         {
         }
 
-        public CommunicatorDbContext(DbContextOptions<CommunicatorDbContext> options)
+        public CommunicatorDBContext(DbContextOptions<CommunicatorDBContext> options)
             : base(options)
         {
         }
@@ -30,7 +31,8 @@ namespace InternetCommunicator.Infrastructure.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("ConnectionStrings:PC-DOM");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=PC-DOM;Initial Catalog=CommunicatorDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
