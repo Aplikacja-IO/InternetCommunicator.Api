@@ -3,10 +3,10 @@ using MediatR;
 
 namespace InternetCommunicator.Application.Feature.Post
 {
-    public class GetPosQuery : IRequest<PostDto>
+    public class GetPostQuery : IRequest<PostDto>
     {
         public int Id { get; set; }
-        public GetPosQuery(int id)
+        public GetPostQuery(int id)
         {
             Id = id;
         }

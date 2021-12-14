@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using InternetCommunicator.Application.Dto.Post;
-using InternetCommunicator.Domain.Models;
-using MediatR;
+﻿using InternetCommunicator.Application.Dto.Post;
 using InternetCommunicator.Application.Feature.Post;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace InternetCommunicator.Api.Controllers
 {
@@ -17,15 +11,14 @@ namespace InternetCommunicator.Api.Controllers
     public class PostControler : BaseController
     {
         public PostControler(IMediator mediator) : base(mediator)
-        {
-        }
+        { }
 
 
         [HttpGet]
         [Route("all", Name = "GetAll")]
         public async Task<PostDto> GetAll([FromQuery] int id)
         {
-            var command = new GetPosQuery(id);
+            var command = new GetPostQuery(id);
             var result = await Mediator.Send(command).ConfigureAwait(false);
             return result;
         }
