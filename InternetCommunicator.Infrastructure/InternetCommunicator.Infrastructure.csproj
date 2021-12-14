@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InternetCommunicator.Application\InternetCommunicator.Application.csproj" />
+    <ProjectReference Include="..\InternetCommunicator.Domain\InternetCommunicator.Domain.csproj" />
   </ItemGroup>
 
 </Project>
