@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\InternetCommunicator.Api"
+    "\\InternetCommunicator.Api",
+    "\\InternetCommunicator.Api\\Controllers",
+    "\\InternetCommunicator.Api\\Hubs"
   ],
   "SelectedNode": "\\InternetCommunicator.Api.sln",
   "PreviewInSolutionExplorer": false

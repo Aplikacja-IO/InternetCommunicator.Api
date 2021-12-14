@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using InternetCommunicator.Infrastructure.Context;
+using InternetCommunicator.Api.Hubs;
 
 namespace InternetCommunicator.Api
 {
@@ -33,6 +34,7 @@ namespace InternetCommunicator.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration.GetConnectionString("CommunicatorDatabase");
+            services.AddRazorPages();
             services.AddDbContextPool<CommunicatorDbContext>(options => options.UseSqlServer(connection));
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -80,6 +82,7 @@ namespace InternetCommunicator.Api
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,6 +96,7 @@ namespace InternetCommunicator.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -103,6 +107,8 @@ namespace InternetCommunicator.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
