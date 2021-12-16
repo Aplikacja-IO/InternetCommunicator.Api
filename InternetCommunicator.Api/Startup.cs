@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using InternetCommunicator.Infrastructure.Context;
 using InternetCommunicator.Api.Hubs;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace InternetCommunicator.Api
 {
@@ -36,7 +37,6 @@ namespace InternetCommunicator.Api
             var connection = Configuration.GetConnectionString("CommunicatorDatabase");
             services.AddRazorPages();
             services.AddDbContextPool<CommunicatorDbContext>(options => options.UseSqlServer(connection));
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "InternetCommunicator.Api", Version = "v1" });
@@ -83,6 +83,8 @@ namespace InternetCommunicator.Api
                 };
             });
             services.AddSignalR();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
