@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace InternetCommunicator.Application.Feature.Group
 {
-    class GetGroupQuery : IRequest<IEnumerable<GroupDto>>
+    public class GetGroupQuery : IRequest<IEnumerable<GroupDto>>
     {
     }
 }
