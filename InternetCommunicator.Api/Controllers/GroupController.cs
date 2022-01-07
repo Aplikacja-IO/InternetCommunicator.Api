@@ -24,7 +24,7 @@ namespace InternetCommunicator.Api.Controllers
             _context = context;
         }
         // GET: api/<GroupController>
-        [HttpGet("{id}")]
+        [HttpGet("GroupMembers/{id}")]
         public async Task<ActionResult<IEnumerable<RegisterUser>>> GetGroupMembers(int id)
         {
             var query = from member in _context.GroupMemberships
@@ -35,5 +35,15 @@ namespace InternetCommunicator.Api.Controllers
           return await query.ToListAsync();
         }
 
+        [HttpGet("AllUserGroups/{userId}")]
+        public async Task<ActionResult<IEnumerable<Group>>> GetAllUserGroups(int userId)
+        {
+            var query = from groupsMembership in _context.GroupMemberships
+                        join groups in _context.Groups on groupsMembership.GroupId equals groups.GroupId
+                        where groupsMembership.UserId == userId
+                        select groups;
+
+            return await query.ToListAsync();
+        }
     }
 }
