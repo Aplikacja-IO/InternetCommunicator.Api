@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 #nullable disable
 
 namespace InternetCommunicator.Domain.Models
 {
+    [DataContract]
     public partial class RegisterUser
     {
         public RegisterUser()
@@ -16,11 +18,12 @@ namespace InternetCommunicator.Domain.Models
             GroupMemberships = new HashSet<GroupMembership>();
             Groups = new HashSet<Group>();
         }
-
+        [DataMember]
         public int UserId { get; set; }
+        [DataMember]
         public string UserName { get; set; }
-        [JsonIgnore]
         public byte[] UserPassword { get; set; }
+        [DataMember]
         public DateTime RegisterDate { get; set; }
 
         public virtual CompanyUser CompanyUserUser { get; set; }
