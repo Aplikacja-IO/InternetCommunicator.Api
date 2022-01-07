@@ -24,13 +24,13 @@ namespace InternetCommunicator.Api.Controllers
             _context = context;
         }
         // GET: api/<GroupController>
-        [HttpGet("GroupMembers/{id}")]
-        public async Task<ActionResult<IEnumerable<RegisterUser>>> GetGroupMembers(int id)
+        [HttpGet("GroupMembers/{groupId}")]
+        public async Task<ActionResult<IEnumerable<RegisterUser>>> GetGroupMembers(int groupId)
         {
             var query = from member in _context.GroupMemberships
-                        join user in _context.RegisterUsers
-                        on member.UserId equals user.UserId
-                        select user;
+                        join groups in _context.Groups on member.GroupId equals groups.GroupId
+                        join users in _context.RegisterUsers on member.UserId equals users.UserId
+                        select users;
 
           return await query.ToListAsync();
         }
