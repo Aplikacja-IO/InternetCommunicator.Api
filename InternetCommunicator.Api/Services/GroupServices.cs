@@ -10,7 +10,10 @@ namespace InternetCommunicator.Api.Services
     public class GroupServices
     {
         private CommunicatorDbContext _context;
-
+        public GroupServices(CommunicatorDbContext context)
+        {
+            _context = context;
+        }
         public async Task<Group> CreateGroup(string _groupName, int? _parentGroupId, int _authorId)
         {
             var highestId = _context.Groups.AsQueryable().OrderByDescending(u => u.GroupId).FirstOrDefault().GroupId;
