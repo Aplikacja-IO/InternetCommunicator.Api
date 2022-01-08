@@ -31,5 +31,10 @@ namespace InternetCommunicator.Api.Services
             await _context.SaveChangesAsync();
             return group;
         }
+        public async Task<Group> GetGroupById(int _groupId)
+        {
+            var group = await _context.Groups.FindAsync(_groupId);
+            return group;
+        }
     }
 }
