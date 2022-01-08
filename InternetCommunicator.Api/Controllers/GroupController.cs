@@ -61,6 +61,14 @@ namespace InternetCommunicator.Api.Controllers
             var group = await groupServices.GetGroupById(groupId);
             return group;
         }
+        [HttpPost("newGroupMember")]
+        public async Task<ActionResult<GroupMembership>> AddNewUserToGroup(int groupId, int userId)
+        {
+            var groupServices = new GroupServices(_context);
+            var newGroupMembership = await groupServices.AddUserToGroup(userId, groupId);
+            if (newGroupMembership == null) return BadRequest("Nie udalo sie dodac uzytkownika do grupy");
+            return new ActionResult<GroupMembership>(newGroupMembership);
+        }
 
     }
 }
