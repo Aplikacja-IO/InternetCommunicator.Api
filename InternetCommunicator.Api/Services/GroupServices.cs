@@ -36,5 +36,16 @@ namespace InternetCommunicator.Api.Services
             var group = await _context.Groups.FindAsync(_groupId);
             return group;
         }
+        public async Task<GroupMembership> AddUserToGroup(int _userId, int _groupId)
+        {
+            var groupMember = new GroupMembership
+            {
+                UserId = _userId,
+                GroupId = _groupId
+            };
+            _context.GroupMemberships.Add(groupMember);
+            await _context.SaveChangesAsync();
+            return groupMember;
+        }
     }
 }
