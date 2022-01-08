@@ -1,4 +1,5 @@
-﻿using InternetCommunicator.Domain.Models;
+﻿using InternetCommunicator.Api.Services;
+using InternetCommunicator.Domain.Models;
 using InternetCommunicator.Infrastructure.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,6 @@ namespace InternetCommunicator.Api.Controllers
         {
             _context = context;
         }
-        // GET: api/<GroupController>
         [HttpGet("GroupMembers/{groupId}")]
         public async Task<ActionResult<IEnumerable<RegisterUser>>> GetGroupMembers(int groupId)
         {
@@ -44,6 +44,15 @@ namespace InternetCommunicator.Api.Controllers
                         select groups;
 
             return await query.ToListAsync();
+        }
+
+        [HttpPost("NewGroup")]
+        public async Task<ActionResult<Group>> PostNewGroup(string groupName, int? parentGroupId, int authorId)
+        {
+            var groupServices = new GroupServices(_context);
+            var newGroup = await groupServices.CreateGroup(groupName, parentGroupId, authorId);
+            if (newGroup == null) return BadRequest("Nie udalo sie utworzyc grupy");
+            return new ActionResult<Group>(newGroup);
         }
     }
 }
