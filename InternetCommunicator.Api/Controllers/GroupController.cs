@@ -54,5 +54,13 @@ namespace InternetCommunicator.Api.Controllers
             if (newGroup == null) return BadRequest("Nie udalo sie utworzyc grupy");
             return new ActionResult<Group>(newGroup);
         }
+        [HttpGet("GetGroupById/{groupId}")]
+        public async Task<ActionResult<Group>> GetGroupById(int groupId)
+        {
+            var groupServices = new GroupServices(_context);
+            var group = await groupServices.GetGroupById(groupId);
+            return group;
+        }
+
     }
 }
