@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using InternetCommunicator.Api.Services;
+using InternetCommunicator.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,12 @@ namespace InternetCommunicator.Api.Hubs
     public class ChatHub : Hub
     {
         public string GetConnectionId() => Context.ConnectionId; //ConnectionId - unique ID thta SignalR gives to every client
+        public string GetUserName() => Context.User.Identity.Name;
         public override async Task OnConnectedAsync()
         {
-            await Clients.All.SendAsync("UserConnected", Context.ConnectionId);
+            var userId = Context.GetHttpContext().Request.Query["userId"];
+
+            await Groups.AddToGroupAsync(GetConnectionId(), $"user_{userId}");
             await base.OnConnectedAsync();
         }
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -25,9 +30,9 @@ namespace InternetCommunicator.Api.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
-        public async Task SencPrivateMessage(string toUser, string fromUser, string message)
+        public async Task SendPrivateMessage(string toUser, string fromUserId, string message)
         {
-            await Clients.User(toUser).SendAsync("ReceivePrivateMessage", fromUser, message);
+            await Clients.Group($"user_{fromUserId}").SendAsync("notify", message);
         }
     }
 }
