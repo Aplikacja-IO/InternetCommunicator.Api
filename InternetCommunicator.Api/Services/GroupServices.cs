@@ -1,5 +1,6 @@
 ﻿using InternetCommunicator.Domain.Models;
 using InternetCommunicator.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,15 @@ namespace InternetCommunicator.Api.Services
             _context.GroupMemberships.Add(groupMember);
             await _context.SaveChangesAsync();
             return groupMember;
+        }
+        public async Task<List<RegisterUser>> GetAllGroupMembers(int _groupId)
+        {
+            var groupMembers = from groups in _context.GroupMemberships
+                               join registerUsers in _context.RegisterUsers on groups.UserId equals registerUsers.UserId
+                               where groups.GroupId == _groupId
+                               select registerUsers;
+
+            return await groupMembers.ToListAsync();
         }
     }
 }
