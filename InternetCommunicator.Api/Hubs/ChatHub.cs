@@ -60,6 +60,21 @@ namespace InternetCommunicator.Api.Hubs
             await Clients.Group($"userId_${authorId}").SendAsync("PostAddingStatus", "success");
         }
 
+        private async Task NotifyGroup(int parentGroupId)
+        {
+            var groupServices = new GroupServices(_context);
+            var groupMembers = await groupServices.GetAllGroupMembers(parentGroupId);
+
+            foreach(var user in groupMembers)
+            {
+                await NotifyUserAboutMessage(user);
+            }
+        }
+
+        private async Task NotifyUserAboutMessage(RegisterUser user)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task SendMessage(string user, string message)
         {
