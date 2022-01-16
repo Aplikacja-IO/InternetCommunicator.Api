@@ -34,6 +34,33 @@ namespace InternetCommunicator.Api.Hubs
             await Clients.All.SendAsync("UserDisconnected", Context.ConnectionId);
             await base.OnDisconnectedAsync(exception);
         }
+        public async Task SendPost(string authorIdString, string parentGroupIdString, string postText)
+        {
+            int authorId = Int32.Parse(authorIdString);
+            int parentGroupId = Int32.Parse(parentGroupIdString);
+
+            var componentServices = new ComponentServices(_context);
+            var newPost = await componentServices.CreatePost(authorId, parentGroupId, postText);
+            if(newPost != null)
+            {
+                await NotifyGroup(parentGroupId);
+                await NotifyAuthorAboutSuccess(authorId);
+            }
+            await NotifyAuthorAboutFailure(authorId);
+
+        }
+
+        private async Task NotifyAuthorAboutFailure(int authorId)
+        {
+            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingStatus", "failure");
+        }
+
+        private async Task NotifyAuthorAboutSuccess(int authorId)
+        {
+            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingStatus", "success");
+        }
+
+
         public async Task SendMessage(string user, string message)
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
