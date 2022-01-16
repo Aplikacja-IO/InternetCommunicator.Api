@@ -27,6 +27,7 @@ namespace InternetCommunicator.Api.Hubs
             var userId = Context.GetHttpContext().Request.Query["userId"];
 
             await Groups.AddToGroupAsync(GetConnectionId(), $"user_{userId}");
+            await Clients.Group($"user_{userId}").SendAsync("UserConnected", Context.ConnectionId);
             await base.OnConnectedAsync();
         }
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -52,14 +53,14 @@ namespace InternetCommunicator.Api.Hubs
 
         private async Task NotifyAuthorAboutFailure(int authorId)
         {
-            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingFailure", "failure");
+            await Clients.Group($"user_{authorId}").SendAsync("PostAddingFailure", "failure");
         }
 
         private async Task NotifyAuthorAboutSuccess(Component newPost)
         {
             var authorId = newPost.AuthorId;
             var postText = newPost.Post.PostText;
-            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingSuccess", postText);
+            await Clients.Group($"user_{authorId}").SendAsync("PostAddingSuccess", postText);
         }
 
         private async Task NotifyGroup(Component newPost)
@@ -77,8 +78,9 @@ namespace InternetCommunicator.Api.Hubs
         private async Task NotifyUserAboutMessage(RegisterUser user, Component newPost)
         {
             var userId = user.UserId;
+            var userName = user.UserName;
             var postText = newPost.Post.PostText;
-            await Clients.Group($"userId_${userId}").SendAsync("NewMessageNotify", postText);
+            await Clients.Group($"user_{userId}").SendAsync("NewMessageNotify", userName, postText);
         }
 
         public async Task SendMessage(string user, string message)
