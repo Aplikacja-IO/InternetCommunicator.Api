@@ -43,8 +43,8 @@ namespace InternetCommunicator.Api.Hubs
             var newPost = await componentServices.CreatePost(authorId, parentGroupId, postText);
             if(newPost != null)
             {
-                await NotifyGroup(parentGroupId);
-                await NotifyAuthorAboutSuccess(authorId);
+                await NotifyGroup(newPost);
+                await NotifyAuthorAboutSuccess(newPost);
             }
             await NotifyAuthorAboutFailure(authorId);
 
@@ -52,28 +52,33 @@ namespace InternetCommunicator.Api.Hubs
 
         private async Task NotifyAuthorAboutFailure(int authorId)
         {
-            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingStatus", "failure");
+            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingFailure", "failure");
         }
 
-        private async Task NotifyAuthorAboutSuccess(int authorId)
+        private async Task NotifyAuthorAboutSuccess(Component newPost)
         {
-            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingStatus", "success");
+            var authorId = newPost.AuthorId;
+            var postText = newPost.Post.PostText;
+            await Clients.Group($"userId_${authorId}").SendAsync("PostAddingSuccess", postText);
         }
 
-        private async Task NotifyGroup(int parentGroupId)
+        private async Task NotifyGroup(Component newPost)
         {
+            var parentGroupId = newPost.ParentGroupId;
             var groupServices = new GroupServices(_context);
             var groupMembers = await groupServices.GetAllGroupMembers(parentGroupId);
 
             foreach(var user in groupMembers)
             {
-                await NotifyUserAboutMessage(user);
+                await NotifyUserAboutMessage(user, newPost);
             }
         }
 
-        private async Task NotifyUserAboutMessage(RegisterUser user)
+        private async Task NotifyUserAboutMessage(RegisterUser user, Component newPost)
         {
-            throw new NotImplementedException();
+            var userId = user.UserId;
+            var postText = newPost.Post.PostText;
+            await Clients.Group($"userId_${userId}").SendAsync("NewMessageNotify", postText);
         }
 
         public async Task SendMessage(string user, string message)
