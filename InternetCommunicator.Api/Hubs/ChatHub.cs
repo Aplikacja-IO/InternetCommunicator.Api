@@ -1,5 +1,6 @@
 ﻿using InternetCommunicator.Api.Services;
 using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -12,6 +13,13 @@ namespace InternetCommunicator.Api.Hubs
     [Authorize]
     public class ChatHub : Hub
     {
+        private CommunicatorDbContext _context;
+        public ChatHub(CommunicatorDbContext context)
+        {
+            _context = context;
+            
+        }
+
         public string GetConnectionId() => Context.ConnectionId; //ConnectionId - unique ID thta SignalR gives to every client
         public string GetUserName() => Context.User.Identity.Name;
         public override async Task OnConnectedAsync()
