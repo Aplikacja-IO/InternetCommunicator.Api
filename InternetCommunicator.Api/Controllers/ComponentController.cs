@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using InternetCommunicator.Api.Services;
+using InternetCommunicator.Domain.Models;
+using InternetCommunicator.Infrastructure.Context;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,79 +12,24 @@ namespace InternetCommunicator.Api.Controllers
 {
     public class ComponentController : Controller
     {
-        // GET: ComponentController
-        public ActionResult Index()
+
+        private readonly CommunicatorDbContext _context;
+
+        public ComponentController(CommunicatorDbContext context)
         {
-            return View();
+            _context = context;
         }
 
-        // GET: ComponentController/Details/5
-        public ActionResult Details(int id)
+        // GET api/<ComponentController>/
+        [HttpGet("GetComponentById/{postId}")]
+        public async Task<ActionResult<Component>> GetPostById(int postId)
         {
-            return View();
+            var componentServices = new ComponentServices(_context);
+            var component = await componentServices.GetComponentByIdAsync(postId);
+            if (component == null) return BadRequest("Brak postu o podanym ID");
+            return new ActionResult<Component>(component);
         }
 
-        // GET: ComponentController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ComponentController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ComponentController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ComponentController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ComponentController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ComponentController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }
