@@ -58,5 +58,17 @@ namespace InternetCommunicator.UnitTests
             response.PostText.Should().Be(_postText);
             response.SourceId.Should().Be(_sourceId);
         }
+
+        [Fact]
+        [Trait("Category", "UnitTests")]
+        public void GetCommentQueryHandler_When_ICommentRepositoryIsNull_Throw_ArgumentNullExceptionException()
+        {
+            // Arrange           
+
+            // Act
+
+            // Assert
+            FluentActions.Invoking(() => new GetCommentQueryHandler(null)).Should().Throw<ArgumentNullException>();
+        }
     }
 }
