@@ -19,6 +19,9 @@ namespace InternetCommunicator.Application.Feature.Comment
         public async Task<CommentDto> Handle(GetCommentQuery request, CancellationToken cancellationToken)
         {
             var result = await _commentRepository.GetByIdAsync(request.Id).ConfigureAwait(false);
+
+            if (result == null) return null;
+
             return new CommentDto
             {
                SourceId = result.SourceId,

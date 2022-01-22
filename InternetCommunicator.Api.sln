@@ -5,11 +5,15 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternetCommunicator.Api", "InternetCommunicator.Api\InternetCommunicator.Api.csproj", "{53C08203-B813-4482-975B-F00A7B18633C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetCommunicator.Domain", "InternetCommunicator.Domain\InternetCommunicator.Domain.csproj", "{F4DAE7BF-D4EE-4A37-925C-50D20631D17D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternetCommunicator.Domain", "InternetCommunicator.Domain\InternetCommunicator.Domain.csproj", "{F4DAE7BF-D4EE-4A37-925C-50D20631D17D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetCommunicator.Application", "InternetCommunicator.Application\InternetCommunicator.Application.csproj", "{C660867D-ACEA-48D1-BCCA-0B97DD1BB5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternetCommunicator.Application", "InternetCommunicator.Application\InternetCommunicator.Application.csproj", "{C660867D-ACEA-48D1-BCCA-0B97DD1BB5C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetCommunicator.Infrastructure", "InternetCommunicator.Infrastructure\InternetCommunicator.Infrastructure.csproj", "{05D8F37A-7F50-48E7-8C09-814C0B6703EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternetCommunicator.Infrastructure", "InternetCommunicator.Infrastructure\InternetCommunicator.Infrastructure.csproj", "{05D8F37A-7F50-48E7-8C09-814C0B6703EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{11D19C25-AEB5-4875-9B3D-618BB5B7510A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetCommunicator.UnitTests", "InternetCommunicator.UnitTests\InternetCommunicator.UnitTests.csproj", "{15CCDB47-6989-412A-8A10-792DD914B306}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,16 @@ Global
 		{05D8F37A-7F50-48E7-8C09-814C0B6703EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05D8F37A-7F50-48E7-8C09-814C0B6703EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05D8F37A-7F50-48E7-8C09-814C0B6703EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15CCDB47-6989-412A-8A10-792DD914B306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15CCDB47-6989-412A-8A10-792DD914B306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15CCDB47-6989-412A-8A10-792DD914B306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15CCDB47-6989-412A-8A10-792DD914B306}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{15CCDB47-6989-412A-8A10-792DD914B306} = {11D19C25-AEB5-4875-9B3D-618BB5B7510A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8EC55E3-688B-49FA-9F9D-B0D7C43F634A}
