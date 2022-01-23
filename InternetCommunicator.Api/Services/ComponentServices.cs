@@ -45,7 +45,11 @@ namespace InternetCommunicator.Api.Services
 
             return newComponent;
         }
-
+        public async Task<Component> GetComponentByIdAsync(int componentId)
+        {
+            var component = await _context.Components.FindAsync(componentId);
+            return component;
+        }
         public async Task<bool> AddComponent(Component newComponent)
         {
             _context.Components.Add(newComponent);
@@ -53,12 +57,19 @@ namespace InternetCommunicator.Api.Services
             if (changedLines > 0) return true;
             return false;
         }
-    }
 
-        public async Task<Component> GetComponentByIdAsync(int componentId)
+        public async Task<bool> DeleteComponentById(int componentId)
         {
-            var component = await _context.Components.FindAsync(componentId);
-            return component;
+            var componentToDelete = await _context.Components.FindAsync(componentId);
+            if(componentToDelete != null)
+            {
+                _context.Components.Remove(componentToDelete);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
+
+
 }
