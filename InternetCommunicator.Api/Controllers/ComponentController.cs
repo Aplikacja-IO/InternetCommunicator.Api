@@ -29,7 +29,16 @@ namespace InternetCommunicator.Api.Controllers
             if (component == null) return BadRequest("Brak postu o podanym ID");
             return new ActionResult<Component>(component);
         }
+        [HttpPost("PostNewComponent")]
+        public async Task<ActionResult<Component>> PostNewComponent(Component newComponent)
+        {
+            var componentService = new ComponentServices(_context);
+            if(await componentService.AddComponent(newComponent))
+            {
+                return new ActionResult<Component>(newComponent);
+            }
+            return BadRequest("Nie udalo sie dodac noweg componentu");
 
-        
+        }
     }
 }
