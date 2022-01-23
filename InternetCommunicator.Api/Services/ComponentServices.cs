@@ -16,7 +16,7 @@ namespace InternetCommunicator.Api.Services
             _context = context;
         }
 
-        public async Task<Post> CreatePost(int authorId, int parentGroupId, string postText)
+        public async Task<Component> CreatePost(int authorId, int parentGroupId, string postText)
         {
             int newPostId;
             var componentsList = _context.Components.AsQueryable().OrderByDescending(c => c.ComponentId).ToList();
@@ -43,7 +43,22 @@ namespace InternetCommunicator.Api.Services
             _context.Posts.Add(newPost);
             await _context.SaveChangesAsync();
 
-            return newPost;
+            return newComponent;
+        }
+
+        public async Task<bool> AddComponent(Component newComponent)
+        {
+            _context.Components.Add(newComponent);
+            int changedLines = await _context.SaveChangesAsync();
+            if (changedLines > 0) return true;
+            return false;
+        }
+    }
+
+        public async Task<Component> GetComponentByIdAsync(int componentId)
+        {
+            var component = await _context.Components.FindAsync(componentId);
+            return component;
         }
     }
 }
