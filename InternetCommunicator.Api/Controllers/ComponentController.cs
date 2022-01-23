@@ -40,5 +40,15 @@ namespace InternetCommunicator.Api.Controllers
             return BadRequest("Nie udalo sie dodac noweg componentu");
 
         }
+        [HttpDelete]
+        public async Task<bool> DeleteComponentById(int componentId)
+        {
+            var componentService = new ComponentServices(_context);
+            if(await componentService.DeleteComponentById(componentId))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
