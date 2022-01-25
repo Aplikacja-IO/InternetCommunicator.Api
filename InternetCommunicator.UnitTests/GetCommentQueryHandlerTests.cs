@@ -40,7 +40,6 @@ namespace InternetCommunicator.UnitTests
             // Assert
 
             response.Should().BeNull();
-       
         }
 
         [Fact]
