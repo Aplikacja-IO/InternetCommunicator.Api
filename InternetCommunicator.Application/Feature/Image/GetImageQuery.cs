@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using InternetCommunicator.Application.Dto.Image;
+using MediatR;
 
 
 namespace InternetCommunicator.Application.Feature.Image
 {
-    class GetImageQuery : IRequest<Domain.Models.Image>
+    public class GetImageQuery : IRequest<ImageDto>
     {
         public int Id { get; set; }
 
