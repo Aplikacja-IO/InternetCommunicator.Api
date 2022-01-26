@@ -9,6 +9,7 @@ namespace InternetCommunicator.Domain.Models
     {
         public int ComponentId { get; set; }
         public string ImageUrl { get; set; }
+        public byte[] ByteArray { get; set; }
 
         public virtual Component Component { get; set; }
     }
