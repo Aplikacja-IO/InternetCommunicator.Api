@@ -1,4 +1,5 @@
-﻿using InternetCommunicator.Application.Feature.Image;
+﻿using System;
+using InternetCommunicator.Application.Feature.Image;
 using InternetCommunicator.Domain.Models;
 using InternetCommunicator.Infrastructure.Repository;
 using Moq;
@@ -65,6 +66,17 @@ namespace InternetCommunicator.UnitTests
             response.ComponentId.Should().Be(_image.ComponentId);
             response.ImageUrl.Should().Be(_image.ImageUrl);
             response.ByteArray.Equals(_image.ByteArray);
+        }
+
+        [Fact]
+        public void GetImageQueryHandler_When_IFileRepositoryIsNull_Throw_ArgumentNullExceptionException()
+        {
+            // Arrange           
+
+            // Act
+
+            // Assert
+            FluentActions.Invoking(() => new GetImageQueryHandler(null)).Should().Throw<ArgumentNullException>();
         }
 
     }
