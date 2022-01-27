@@ -5,6 +5,7 @@ using Moq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xunit;
 
 namespace InternetCommunicator.UnitTests
@@ -16,7 +17,6 @@ namespace InternetCommunicator.UnitTests
         private Image _image;
         private const int _componentId = 1;
         private const string _imageUrl = "https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg";
-        private static byte[] byteArray;
 
         public GetImageQueryHandlerTests()
         {
@@ -48,6 +48,23 @@ namespace InternetCommunicator.UnitTests
             // Assert
 
             response.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task Should_Return_ImageDto()
+        {
+            // Arrange
+            _mockFileRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_image);
+
+            // Act
+            var request = new GetImageQuery(_componentId);
+            var response = await _getImageQueryHandler.Handle(request, new CancellationToken());
+            // Assert
+
+            response.Should().NotBeNull();
+            response.ComponentId.Should().Be(_image.ComponentId);
+            response.ImageUrl.Should().Be(_image.ImageUrl);
+            response.ByteArray.Equals(_image.ByteArray);
         }
 
     }
